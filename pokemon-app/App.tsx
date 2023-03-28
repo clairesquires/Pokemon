@@ -1,12 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import Pokedex from './src/components/pokedex';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>This change should be on the testing branch</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Pokedex />
   );
 }
 
