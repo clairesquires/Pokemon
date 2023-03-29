@@ -1,6 +1,8 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, FlatList} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Button} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const pokemonList = require("../../assets/kanto.json");
 
@@ -12,9 +14,13 @@ const Item = ({name}: ItemProps) => (
   </View>
 );
 
-export default function Pokedex() {
+export default function Pokedex({ navigation }: any) {
   return (
     <View style={styles.container}>
+      <Button
+        title="See details"
+        onPress={() => navigation.navigate('Details')}
+      />
       <FlatList
         data={pokemonList}
         renderItem={({item}) => <Item name={item.name} />}
