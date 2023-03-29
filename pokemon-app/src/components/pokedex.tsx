@@ -6,24 +6,22 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const pokemonList = require("../../assets/kanto.json");
 
-type ItemProps = {name: string};
+type ItemProps = {
+    name: string
+    navigation: any};
 
-const Item = ({name}: ItemProps) => (
+const Item = ({name,navigation}:ItemProps) => (
   <View style={styles.item}>
-    <Text style={styles.name}>{name}</Text>
+    <Text style={styles.name} onPress={() => navigation.navigate('Details')}>{name}</Text>
   </View>
 );
 
-export default function Pokedex({ navigation }: any) {
+export default function Pokedex({navigation}: any) {
   return (
     <View style={styles.container}>
-      <Button
-        title="See details"
-        onPress={() => navigation.navigate('Details')}
-      />
       <FlatList
         data={pokemonList}
-        renderItem={({item}) => <Item name={item.name} />}
+        renderItem={({item}) => <Item name={item.name} navigation={navigation} />}
         keyExtractor={item=>item.id}
       />
     </View>

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Pokedex from '../components/pokedex';
+import Pokedex from '../components/Pokedex';
 import Details from '../components/Details';
 
 const Stack = createNativeStackNavigator();
