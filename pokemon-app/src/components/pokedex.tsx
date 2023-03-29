@@ -2,13 +2,18 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, FlatList, Button} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { StackParamList } from '../navigation/Navigation';
 
 const pokemonList = require("../../assets/kanto.json");
 
 type ItemProps = {
     name: string
-    navigation: any};
+    navigation: DetailsScreenNavigationProp["navigation"]
+};
+
+type DetailsScreenNavigationProp = NativeStackScreenProps<StackParamList, 'Pokedex'>;
 
 const Item = ({name,navigation}:ItemProps) => (
   <View style={styles.item}>
@@ -16,7 +21,7 @@ const Item = ({name,navigation}:ItemProps) => (
   </View>
 );
 
-export default function Pokedex({navigation}: any) {
+export default function Pokedex({navigation}: DetailsScreenNavigationProp) {
   return (
     <View style={styles.container}>
       <FlatList

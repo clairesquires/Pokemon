@@ -6,7 +6,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Pokedex from '../components/Pokedex';
 import Details from '../components/Details';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<StackParamList>();
+
+export type StackParamList = {
+    Pokedex: undefined;
+    Details: undefined;
+}
+
 
 export default function Navigation() {
     return (
