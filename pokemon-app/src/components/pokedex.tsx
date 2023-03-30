@@ -1,33 +1,47 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, FlatList} from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StackParamList } from '../navigation/Navigation';
 
-const pokemonList = require("../../assets/kanto.json");
+type Pokemon = {
+    id: string;
+    name: string;
+};
 
 type ItemProps = {
+    id: string
     name: string
     navigation: DetailsScreenNavigationProp["navigation"]
 };
 
 type DetailsScreenNavigationProp = NativeStackScreenProps<StackParamList, 'Pokedex'>;
 
-const Item = ({name,navigation}:ItemProps) => (
+const Item = ({id,name,navigation}:ItemProps) => (
   <View style={styles.item}>
-    <Text style={styles.name} onPress={() => navigation.navigate('Details', {name})}>{name}</Text>
+    <Text style={styles.name} onPress={() => navigation.navigate('Details', {id, name})}>{id}{name}</Text>
   </View>
 );
 
 export default function Pokedex({navigation}: DetailsScreenNavigationProp) {
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={pokemonList}
-        renderItem={({item}) => <Item name={item.name} navigation={navigation} />}
-        keyExtractor={item=>item.id}
-      />
-    </View>
-  );
+    const [data, setData] = useState<Pokemon[]>([]);
+    const getPokemonFromApi = async () => {
+        const response = await fetch('https://pokeapi.co/api/v2/pokemon/?limit=898');
+        const json = await response.json();
+        setData(json.results);
+    };
+    useEffect(() => {
+        getPokemonFromApi();
+    }, []);
+
+    return (
+        <View style={styles.container}>
+        <FlatList
+            data={data}
+            renderItem={({item}) => <Item id={item.id} name={item.name} navigation={navigation} />}
+            keyExtractor={item=>item.id}
+        />
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({

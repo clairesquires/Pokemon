@@ -9,7 +9,10 @@ const Stack = createNativeStackNavigator<StackParamList>();
 
 export type StackParamList = {
     Pokedex: undefined;
-    Details: {name: string};
+    Details: {
+        id: string
+        name: string
+    };
 }
 
 export default function Navigation() {
