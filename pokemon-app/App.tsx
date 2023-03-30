@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Pokedex from './src/components/Pokedex';
+import { StyleSheet} from 'react-native';
 import Navigation from './src/navigation/Navigation';
 
 export default function App() {

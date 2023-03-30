@@ -1,9 +1,6 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, FlatList, Button} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { StyleSheet, Text, View, FlatList} from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StackParamList } from '../navigation/Navigation';
 
 const pokemonList = require("../../assets/kanto.json");
