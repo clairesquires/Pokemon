@@ -4,21 +4,19 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StackParamList } from '../navigation/Navigation';
 
 type Pokemon = {
-    id: string;
     name: string;
 };
 
 type ItemProps = {
-    id: string
     name: string
     navigation: DetailsScreenNavigationProp["navigation"]
 };
 
 type DetailsScreenNavigationProp = NativeStackScreenProps<StackParamList, 'Pokedex'>;
 
-const Item = ({id,name,navigation}:ItemProps) => (
+const Item = ({name,navigation}:ItemProps) => (
   <View style={styles.item}>
-    <Text style={styles.name} onPress={() => navigation.navigate('Details', {id, name})}>{id}{name}</Text>
+    <Text style={styles.name} onPress={() => navigation.navigate('Details', {name})}>{name}</Text>
   </View>
 );
 
@@ -37,8 +35,8 @@ export default function Pokedex({navigation}: DetailsScreenNavigationProp) {
         <View style={styles.container}>
         <FlatList
             data={data}
-            renderItem={({item}) => <Item id={item.id} name={item.name} navigation={navigation} />}
-            keyExtractor={item=>item.id}
+            renderItem={({item}) => <Item name={item.name} navigation={navigation} />}
+            keyExtractor={item=>item.name}
         />
         </View>
     );
