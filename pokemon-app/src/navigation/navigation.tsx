@@ -1,6 +1,5 @@
 
 import * as React from 'react';
-import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Pokedex from '../components/Pokedex';
@@ -10,9 +9,8 @@ const Stack = createNativeStackNavigator<StackParamList>();
 
 export type StackParamList = {
     Pokedex: undefined;
-    Details: undefined;
+    Details: {name: string};
 }
-
 
 export default function Navigation() {
     return (
