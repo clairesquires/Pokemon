@@ -17,7 +17,7 @@ type DetailsScreenNavigationProp = NativeStackScreenProps<StackParamList, 'Poked
 
 const Item = ({name,navigation}:ItemProps) => (
   <View style={styles.item}>
-    <Text style={styles.name} onPress={() => navigation.navigate('Details')}>{name}</Text>
+    <Text style={styles.name} onPress={() => navigation.navigate('Details', {name})}>{name}</Text>
   </View>
 );
 
