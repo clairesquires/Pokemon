@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, FlatList, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Image,
+  ScrollView,
+} from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StackParamList } from "../navigation/Navigation";
 import { Card } from "react-native-paper";
@@ -22,6 +29,15 @@ type DetailsScreenNavigationProp = NativeStackScreenProps<
   StackParamList,
   "Pokedex"
 >;
+
+// Alternative way to putting image in Card
+{
+  /* <Card
+  image={require("./assets/beach.png")}
+  imageStyle={{ height: 50 }}
+  containerStyle={[styles.card, { height: item.height }]}
+></Card>; */
+}
 
 const Item = ({ name, navigation, imageLink }: ItemProps) => (
   <Card style={styles.card}>
@@ -54,56 +70,65 @@ export default function Pokedex({ navigation }: DetailsScreenNavigationProp) {
 
   return (
     <View style={styles.container}>
-      {data.map((item) => (
+      {/* {data.map((item) => (
         <Item
-          name={"item.name"}
+          name={item.name}
           navigation={navigation}
           imageLink={
             "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/44.png"
           }
         />
-      ))}
+      ))} */}
 
-      {/* <FlatList
-        columnWrapperStyle={{ flexWrap: 'wrap', flex: 1, marginTop: 5 }}
-        numColumns={5}
+      <FlatList
+        columnWrapperStyle={styles.flatListItem}
+        numColumns={2}
         horizontal={false}
-          data={data}
-          renderItem={({item}) => <Item name={item.name} navigation={navigation} imageLink={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/44.png"}/>}
-          keyExtractor={item=>item.name}
-          style={styles.flatList}
-        /> */}
+        data={data}
+        renderItem={({ item }) => (
+          <Item
+            name={item.name}
+            navigation={navigation}
+            imageLink={
+              "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/44.png"
+            }
+          />
+        )}
+        keyExtractor={(item) => item.name}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: "auto",
-    marginRight: "auto",
-    maxWidth: 810,
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
+    // flex: 1,
+    // flexDirection: "row",
+    // flexWrap: "wrap",
+    // maxWidth: 810,
+    // alignContent: "center",
+  },
+  flatListItem: {
+    marginTop: 5,
+    justifyContent: "space-evenly",
   },
   card: {
-    height: 300,
-    width: 250,
+    height: 200,
+    width: 150,
     margin: 10,
+    backgroundColor: "white",
   },
   cardContent: {
-    height: 300,
-    width: 250,
-    textAlign: "center",
+    justifyContent: "center",
   },
   image: {
-    width: "auto",
-    height: "80%",
+    width: 100,
+    height: 100,
     marginBottom: 10,
+    marginLeft: "auto",
+    marginRight: "auto",
   },
   name: {
-    backgroundColor: "red",
     fontSize: 20,
     fontWeight: "bold",
     textTransform: "capitalize",
