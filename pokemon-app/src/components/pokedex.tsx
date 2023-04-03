@@ -17,12 +17,15 @@ import {
 
 type Pokemon = {
   name: string;
+  image: string;
+  id: string;
 };
 
 type ItemProps = {
   name: string;
   navigation: DetailsScreenNavigationProp["navigation"];
   imageLink: string;
+  id: string;
 };
 
 type DetailsScreenNavigationProp = NativeStackScreenProps<
@@ -39,47 +42,46 @@ type DetailsScreenNavigationProp = NativeStackScreenProps<
 ></Card>; */
 }
 
-const Item = ({ name, navigation, imageLink }: ItemProps) => (
-  <Card style={styles.card}>
+const Item = ({ name, navigation, imageLink, id }: ItemProps) => (
+  <Card
+    style={styles.card}
+    onPress={() => navigation.navigate("Details", { name })}
+  >
     <Card.Content style={styles.cardContent}>
       <Image source={{ uri: imageLink }} style={styles.image} />
-      <Text
-        style={styles.name}
-        onPress={() => navigation.navigate("Details", { name })}
-      >
-        {name}
-      </Text>
-      <Text style={styles.id}>#id</Text>
+      <Text style={styles.name}>{name}</Text>
+      <Text style={styles.id}>#{id}</Text>
     </Card.Content>
   </Card>
 );
 
 export default function Pokedex({ navigation }: DetailsScreenNavigationProp) {
-  //Primary data
   const [data, setData] = useState<Pokemon[]>([]);
-  const getPokemonFromApi = async () => {
-    const response = await fetch(
-      "https://pokeapi.co/api/v2/pokemon/?limit=898"
-    );
-    const json = await response.json();
-    setData(json.results);
+
+  const fetchPokemon = async () => {
+    const promises = [];
+    for (let i = 1; i <= 150; i++) {
+      const url = `https://pokeapi.co/api/v2/pokemon/${i}`;
+      promises.push(fetch(url).then((res) => res.json()));
+    }
+    const result = await Promise.all(promises).then((results) => {
+      const pokemon = results.map((result) => ({
+        name: result.name,
+        image: result.sprites["front_default"],
+        // type: result.types.map((type) => type.type.name).join(", "),
+        id: result.id,
+      }));
+      return pokemon;
+    });
+    setData(result);
   };
+
   useEffect(() => {
-    getPokemonFromApi();
+    fetchPokemon();
   }, []);
 
   return (
     <View style={styles.container}>
-      {/* {data.map((item) => (
-        <Item
-          name={item.name}
-          navigation={navigation}
-          imageLink={
-            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/44.png"
-          }
-        />
-      ))} */}
-
       <FlatList
         columnWrapperStyle={styles.flatListItem}
         numColumns={2}
@@ -89,9 +91,8 @@ export default function Pokedex({ navigation }: DetailsScreenNavigationProp) {
           <Item
             name={item.name}
             navigation={navigation}
-            imageLink={
-              "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/44.png"
-            }
+            imageLink={item.image}
+            id={item.id}
           />
         )}
         keyExtractor={(item) => item.name}
