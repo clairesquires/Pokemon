@@ -5,15 +5,9 @@ import { StackParamList } from "../navigation/Navigation";
 import { Card } from "react-native-elements";
 
 type PokemonDetails = {
-  id: string;
   name: string;
-  sprites: {
-    other: {
-      "official-artwork": {
-        front_default: string;
-      };
-    };
-  };
+  image: string;
+  id: string;
   type: string;
   height: string;
   weight: string;
@@ -27,34 +21,41 @@ type DetailsScreenNavigationProp = NativeStackScreenProps<
 export default function Details({ route }: DetailsScreenNavigationProp) {
   const name = route.params.name;
 
-  const [data, setData] = useState<PokemonDetails | null>(null);
-  const getPokemonFromApi = async () => {
-    const response = await fetch("https://pokeapi.co/api/v2/pokemon/" + name);
-    const json = await response.json();
-    setData(json);
-  };
-  useEffect(() => {
-    getPokemonFromApi();
-  }, []);
+  const fetchPokemonDetails = async () => {
+    const url = `https://pokeapi.co/api/v2/pokemon/${name}`;
+    const result = await fetch(url).then((res) => res.json());
 
-  const imageLink: string = data?.sprites.other["official-artwork"]
-    .front_default as string;
-  console.log(imageLink);
+    const pokemon = [result].map((res) => ({
+      name: res.name,
+      image: res.sprites["other"]["official-artwork"]["front_default"],
+      id: res.id,
+      type: res.types[0]["type"]["name"],
+      height: res.height,
+      weight: res.weight,
+    }));
+    setData(pokemon[0]);
+  };
+
+  const [data, setData] = useState<PokemonDetails>();
+  useEffect(() => {
+    fetchPokemonDetails();
+  }, []);
 
   return (
     <View style={styles.container}>
       <Image
-        source={{ uri: imageLink }}
+        source={{ uri: data?.image }}
         style={styles.image}
         resizeMode="contain"
       />
       <View style={styles.content}>
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.id}>#{data?.id}</Text>
-
-        <Text>Type: {data?.type}</Text>
-        <Text>Height: {data?.height}</Text>
-        <Text>Weight: {data?.weight}</Text>
+        <View style={styles.details}>
+          <Text>Type: {data?.type}</Text>
+          <Text>Height: {data?.height}</Text>
+          <Text>Weight: {data?.weight}</Text>
+        </View>
       </View>
     </View>
   );
@@ -84,5 +85,8 @@ const styles = StyleSheet.create({
   id: {
     fontSize: 20,
     textAlign: "center",
+  },
+  details: {
+    marginTop: 20,
   },
 });
