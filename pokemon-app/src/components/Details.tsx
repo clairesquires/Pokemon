@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Text, View, Image, StyleSheet } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StackParamList } from "../navigation/Navigation";
-import { Card } from "react-native-elements";
+import { typeColors } from "./Colours";
 
 type PokemonDetails = {
   name: string;
@@ -43,18 +43,25 @@ export default function Details({ route }: DetailsScreenNavigationProp) {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={{ uri: data?.image }}
-        style={styles.image}
-        resizeMode="contain"
-      />
+      <View
+        style={[
+          styles.imageContainer,
+          { backgroundColor: typeColors[data?.type] },
+        ]}
+      >
+        <Image
+          source={{ uri: data?.image }}
+          style={styles.image}
+          resizeMode="contain"
+        />
+      </View>
       <View style={styles.content}>
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.id}>#{data?.id}</Text>
         <View style={styles.details}>
-          <Text>Type: {data?.type}</Text>
-          <Text>Height: {data?.height}</Text>
-          <Text>Weight: {data?.weight}</Text>
+          <Text style={styles.detailsText}>Type: {data?.type}</Text>
+          <Text style={styles.detailsText}>Height: {data?.height}</Text>
+          <Text style={styles.detailsText}>Weight: {data?.weight}</Text>
         </View>
       </View>
     </View>
@@ -64,12 +71,16 @@ export default function Details({ route }: DetailsScreenNavigationProp) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+  },
+  imageContainer: {
+    flex: 1,
+    marginBottom: 20,
+    borderBottomLeftRadius: 130,
+    borderBottomRightRadius: 130,
   },
   image: {
-    flex: 1,
     width: "80%",
-    hight: "auto",
+    height: "100%",
     alignSelf: "center",
   },
   content: {
@@ -77,16 +88,21 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   name: {
-    fontSize: 30,
+    fontSize: 35,
     fontWeight: "bold",
     textTransform: "capitalize",
     textAlign: "center",
   },
   id: {
-    fontSize: 20,
+    fontSize: 25,
     textAlign: "center",
   },
   details: {
     marginTop: 20,
+  },
+  detailsText: {
+    fontSize: 20,
+    textAlign: "center",
+    padding: 2,
   },
 });

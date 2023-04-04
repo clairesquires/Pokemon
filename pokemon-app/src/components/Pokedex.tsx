@@ -3,11 +3,7 @@ import { StyleSheet, Text, View, FlatList, Image } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { StackParamList } from "../navigation/Navigation";
 import { Card } from "react-native-paper";
-import {
-  useFonts as changaOne,
-  Changa_400Regular,
-} from "@expo-google-fonts/changa";
-import { BackgroundImage } from "react-native-elements/dist/config";
+import { typeColors } from "./Colours";
 
 type Pokemon = {
   name: string;
@@ -42,6 +38,7 @@ const Item = ({ name, navigation, imageLink, id, type }: ItemProps) => (
   <Card
     style={[styles.card, { backgroundColor: typeColors[type] }]}
     onPress={() => navigation.navigate("Details", { name })}
+    elevation={0}
   >
     <Card.Content style={styles.cardContent}>
       <Image source={{ uri: imageLink }} style={styles.image} />
@@ -99,43 +96,17 @@ export default function Pokedex({ navigation }: DetailsScreenNavigationProp) {
   );
 }
 
-const typeColors = {
-  normal: "rgba(168,167,122,0.3)",
-  fire: "rgba(238,129,48,0.3)",
-  water: "rgba(99,144,240,0.3)",
-  electric: "rgba(247,208,44,0.3)",
-  grass: "rgba(122,199,76,0.3)",
-  ice: "rgba(150,217,214,0.3)",
-  fighting: "rgba(194,46,40,0.3)",
-  poison: "rgba(163,62,161,0.3)",
-  ground: "rgba(226,191,101,0.3)",
-  flying: "rgba(169,143,243,0.3)",
-  psychic: "rgba(249,85,135,0.3)",
-  bug: "rgba(166,185,26,0.3)",
-  rock: "rgba(182,161,54,0.3)",
-  ghost: "rgba(115,87,151,0.3)",
-  dragon: "rgba(111,53,252,0.3)",
-  dark: "rgba(112,87,70,0.3)",
-  steel: "rgba(183,183,206,0.3)",
-  fairy: "rgba(214,133,173,0.3)",
-};
-
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    // flexDirection: "row",
-    // flexWrap: "wrap",
-    // maxWidth: 810,
-    // alignContent: "center",
+    maxWidth: 500,
   },
   flatListItem: {
-    marginTop: 5,
-    justifyContent: "space-evenly",
+    justifyContent: "center",
   },
   card: {
     height: 200,
-    width: 150,
-    margin: 5,
+    width: "40%",
+    margin: 10,
   },
   cardContent: {
     justifyContent: "center",
