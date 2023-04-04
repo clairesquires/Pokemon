@@ -52,8 +52,6 @@ const Item = ({ name, navigation, imageLink, id, type }: ItemProps) => (
 );
 
 export default function Pokedex({ navigation }: DetailsScreenNavigationProp) {
-  const [data, setData] = useState<Pokemon[]>([]);
-
   const fetchPokemon = async () => {
     const promises = [];
     for (let i = 1; i <= 898; i++) {
@@ -64,14 +62,17 @@ export default function Pokedex({ navigation }: DetailsScreenNavigationProp) {
       const pokemon = results.map((result) => ({
         name: result.name,
         image: result.sprites["other"]["official-artwork"]["front_default"],
-        type: result.types[0]["type"]["name"],
         id: result.id,
+        type: result.types[0]["type"]["name"],
       }));
       return pokemon;
     });
     setData(result);
   };
 
+  // Initialise empty
+  const [data, setData] = useState<Pokemon[]>([]);
+  // Set with data and rerender
   useEffect(() => {
     fetchPokemon();
   }, []);
